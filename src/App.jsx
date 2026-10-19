@@ -13,7 +13,27 @@ const initialTasks = [
   },
 ];
 
-function TaskList({ initialTasks }) {
+function TaskList({ tasks, onToggle }) {
+  const taskItems = tasks.map((task) => {
+    return (
+      <li key={task.id}>
+        <input
+          type="checkbox"
+          id={task.id}
+          onChange={() => {
+            onToggle(task.id);
+          }}
+          checked={task.completed}
+        />
+        <label htmlFor={task.id}>{task.title}</label>
+      </li>
+    );
+  });
+
+  return <ul>{taskItems}</ul>;
+}
+
+function App() {
   const [tasks, setTasks] = useState(initialTasks);
 
   function handleToggle(id) {
@@ -27,30 +47,10 @@ function TaskList({ initialTasks }) {
     setTasks(updatedTasks);
   }
 
-  const taskItems = tasks.map((task) => {
-    return (
-      <li key={task.id}>
-        <input
-          type="checkbox"
-          id={task.id}
-          onChange={() => {
-            handleToggle(task.id);
-          }}
-          checked={task.completed}
-        />
-        <label htmlFor={task.id}>{task.title}</label>
-      </li>
-    );
-  });
-
-  return <ul>{taskItems}</ul>;
-}
-
-function App() {
   return (
     <>
       <h1>タスク一覧</h1>
-      <TaskList initialTasks={initialTasks} />
+      <TaskList tasks={tasks} onToggle={handleToggle} />
     </>
   );
 }
