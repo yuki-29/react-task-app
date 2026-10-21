@@ -41,17 +41,17 @@ function TaskList({ tasks, onToggle, onDelete }) {
 }
 
 function TaskForm({ onAdd }) {
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onAdd(name);
+        onAdd(title);
       }}
     >
       <h2>タスク登録</h2>
-      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <input value={title} onChange={(e) => setTitle(e.target.value)} />
       <button type="submit">登録</button>
     </form>
   );
@@ -60,11 +60,8 @@ function TaskForm({ onAdd }) {
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
 
-  function handleAdd(name) {
-    setTasks([
-      ...tasks,
-      { id: crypto.randomUUID(), title: name, completed: false },
-    ]);
+  function handleAdd(title) {
+    setTasks([...tasks, { id: crypto.randomUUID(), title, completed: false }]);
   }
 
   function handleToggle(id) {
