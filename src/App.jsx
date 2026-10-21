@@ -13,7 +13,7 @@ const initialTasks = [
   },
 ];
 
-function TaskList({ tasks, onToggle }) {
+function TaskList({ tasks, onToggle, onDelete }) {
   const taskItems = tasks.map((task) => {
     return (
       <li key={task.id}>
@@ -26,6 +26,13 @@ function TaskList({ tasks, onToggle }) {
           checked={task.completed}
         />
         <label htmlFor={task.id}>{task.title}</label>
+        <button
+          onClick={() => {
+            onDelete(task.id);
+          }}
+        >
+          削除
+        </button>
       </li>
     );
   });
@@ -33,8 +40,32 @@ function TaskList({ tasks, onToggle }) {
   return <ul>{taskItems}</ul>;
 }
 
+function TaskForm({ onAdd }) {
+  const [name, setName] = useState("");
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        onAdd(name);
+      }}
+    >
+      <h2>タスク登録</h2>
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+      <button type="submit">登録</button>
+    </form>
+  );
+}
+
 function App() {
   const [tasks, setTasks] = useState(initialTasks);
+
+  function handleAdd(name) {
+    setTasks([
+      ...tasks,
+      { id: crypto.randomUUID(), title: name, completed: false },
+    ]);
+  }
 
   function handleToggle(id) {
     const updatedTasks = tasks.map((task) => {
@@ -44,13 +75,19 @@ function App() {
         return task;
       }
     });
+
     setTasks(updatedTasks);
+  }
+
+  function handleDelete(id) {
+    setTasks(tasks.filter((task) => task.id !== id));
   }
 
   return (
     <>
       <h1>タスク一覧</h1>
-      <TaskList tasks={tasks} onToggle={handleToggle} />
+      <TaskList tasks={tasks} onToggle={handleToggle} onDelete={handleDelete} />
+      <TaskForm onAdd={handleAdd} />
     </>
   );
 }
