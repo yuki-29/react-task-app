@@ -47,7 +47,9 @@ function TaskForm({ onAdd }) {
     <form
       onSubmit={(e) => {
         e.preventDefault();
-        onAdd(title);
+        if (title.trim().length > 0) {
+          onAdd(title);
+        }
       }}
     >
       <h2>タスク登録</h2>
