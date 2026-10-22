@@ -49,6 +49,7 @@ function TaskForm({ onAdd }) {
         e.preventDefault();
         if (title.trim().length > 0) {
           onAdd(title);
+          setTitle("");
         }
       }}
     >
