@@ -25,7 +25,9 @@ function TaskList({ tasks, onToggle, onDelete }) {
           }}
           checked={task.completed}
         />
-        <label htmlFor={task.id}>{task.title}</label>
+        <label htmlFor={task.id} className={task.completed ? "done" : ""}>
+          {task.title}
+        </label>
         <button
           onClick={() => {
             onDelete(task.id);
