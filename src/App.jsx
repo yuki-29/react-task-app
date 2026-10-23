@@ -54,7 +54,11 @@ function TaskForm({ onAdd }) {
       }}
     >
       <h2>タスク登録</h2>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        size="35"
+      />
       <button type="submit">登録</button>
     </form>
   );
